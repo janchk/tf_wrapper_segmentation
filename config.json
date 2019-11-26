@@ -1,0 +1,1 @@
+{  "input_size": [    256,    256  ],  "datafile_path": "",  "imgs_path" : "",  "pb_path" : "/home/jakhremchik/Downloads/train_fine/frozen_inference_graph.pb",   "input_node" : "ImageTensor:0", "output_node" : "SemanticPredictions:0" }
