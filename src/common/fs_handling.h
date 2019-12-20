@@ -16,6 +16,8 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
+#include "csv/csv.h"
+
 #include "../tensorflow_auxiliary.h"
 
 #define EXPERIMENTAL
@@ -52,6 +54,7 @@ public:
         std::string input_node;
         std::string output_node;
         std::string pb_path;
+        std::string colors_path;
     };
 
     // struct with all config data
@@ -60,11 +63,13 @@ public:
    // important variable. It contains information of image paths and corresponding embeddings.
     std::vector<data_vec_entry> data_vec_base;
 
+    std::vector<std::array<int, 3>> colors;
+
     std::string config_path;
 
-    //TODO MOVE IT OUT
     bool load_database();
     bool load_config();
+    bool load_colors();
     bool add_json_entry(data_vec_entry new_data);
 
     bool add_error_entry(std::string act_class_in, 
@@ -75,9 +80,11 @@ protected:
     std::fstream config_datafile;
     std::fstream errors_datafile;
 
-
     std::vector<std::pair<cv::Mat, std::string>> imgs_and_paths;
 
+    std::vector<std::string> _read_csv_row(std::string &line, char delimiter);
+    std::vector<std::string> _read_csv_row(std::istream &in, char delimiter);
+    bool open_csv_file();
     bool open_datafile();
     bool open_config();
     bool open_error_datafile();

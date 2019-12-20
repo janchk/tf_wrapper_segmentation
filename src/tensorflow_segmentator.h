@@ -30,7 +30,7 @@ public:
 
     std::vector<cv::Mat> getOutputSegmentationColored();
 
-    bool setSegmentationColors();
+    bool setSegmentationColors(std::vector<std::array<int, 3>> colors);
 
     bool normalize_image(cv::Mat &img);
 
@@ -38,7 +38,8 @@ public:
 
 protected:
 
-    std::vector<std::vector<int>> _colors;
+//    std::vector<std::vector<int>> _colors;
+    std::vector<std::array<int, 3>> _colors;
     tensorflow::Status _status;
     tensorflow::Tensor _input_tensor;
 

@@ -52,33 +52,48 @@ bool DataHandling::open_config() {
     return true;
 }
 
+bool DataHandling::open_csv_file() {
+//    io::CSVReader<4> in(config.colors_path);
+//    in.read_header(io::ignore_no_column);
+//    csv_file = in;
+//    this->csv_file.open(config.colors_path, std::ios::in | std::ios::app);
+    return true;
+}
+
 bool DataHandling::load_config() {
     using namespace rapidjson;
     Document doc;
     std::string line;
 
+    open_config();
+
     if (this->config_datafile.is_open()) {
         std::getline(config_datafile, line);
         doc.Parse(line.c_str());
+        if (doc.IsObject()) {
 
-        rapidjson::Value &input_size = doc["input_size"];
-        rapidjson::Value &datafile_path = doc["datafile_path"];
-        rapidjson::Value &img_path = doc["imgs_path"];
-        rapidjson::Value &input_node = doc["input_node"];
-        rapidjson::Value &output_node = doc["output_node"];
-        rapidjson::Value &pb_path = doc["pb_path"];
+            rapidjson::Value &input_size = doc["input_size"];
+            rapidjson::Value &datafile_path = doc["datafile_path"];
+            rapidjson::Value &img_path = doc["imgs_path"];
+            rapidjson::Value &input_node = doc["input_node"];
+            rapidjson::Value &output_node = doc["output_node"];
+            rapidjson::Value &pb_path = doc["pb_path"];
+            rapidjson::Value &colors_path = doc["colors_path"];
 
-        config.input_node = input_node.GetString();
-        config.output_node = output_node.GetString();
-        config.datafile_path = datafile_path.GetString();
-        config.imgs_path = img_path.GetString();
-        config.pb_path = pb_path.GetString();
-        config.input_size.height = input_size.GetArray()[0].GetInt();
-        config.input_size.width = input_size.GetArray()[1].GetInt();
+            config.input_node = input_node.GetString();
+            config.output_node = output_node.GetString();
+            config.datafile_path = datafile_path.GetString();
+            config.imgs_path = img_path.GetString();
+            config.pb_path = pb_path.GetString();
+            config.colors_path = colors_path.GetString();
+            config.input_size.height = input_size.GetArray()[0].GetInt();
+            config.input_size.width = input_size.GetArray()[1].GetInt();
 
+            return true;
+        } else
+            return false;
     } else {
-        open_config();
-        load_config();
+        return false;
     }
 
 }
@@ -149,7 +164,7 @@ bool DataHandling::add_json_entry(data_vec_entry new_data) {
 
 bool DataHandling::add_error_entry(std::string act_class_in,
                                    std::string act_path_in, std::string expected_class_in) {
-     using namespace rapidjson;
+    using namespace rapidjson;
     StringBuffer strbuf;
     Writer<StringBuffer> writer(strbuf);
 
@@ -186,3 +201,59 @@ bool DataHandling::add_error_entry(std::string act_class_in,
 
     // }
 }
+
+bool DataHandling::load_colors() {
+    io::CSVReader<4> in(config.colors_path);
+    in.read_header(io::ignore_extra_column, "name", "r", "g", "b");
+    std::string name; int r; int g; int b;
+    while(in.read_row(name, r, g, b)) {
+        std::array<int, 3> color = {r, g, b};
+        this->colors.emplace_back(color);
+//        std::cout << name << r << g << b << std::endl;
+    }
+
+    return true;
+}
+
+std::vector<std::string> DataHandling::_read_csv_row(std::string &line, char delimiter) {
+    std::stringstream ss(line);
+    return _read_csv_row(ss, delimiter);
+
+}
+std::vector<std::string> DataHandling::_read_csv_row(std::istream &in, char delimiter) {
+    std::stringstream ss;
+    bool inquotes = false;
+    std::vector<std::string> row;
+    while(in.good()) {
+        char c = in.get();
+        if (!inquotes && c=='"') {
+            inquotes=true;
+        }
+        else if (inquotes && c=='"') {
+            if ( in.peek() == '"') {
+                ss << (char)in.get();
+            }
+            else {
+                inquotes=false;
+            }
+        }
+        else if (!inquotes && c==delimiter) {
+            row.push_back( ss.str() );
+            ss.str("");
+        }
+        else if (!inquotes && (c=='\r' || c=='\n') ) {
+            if(in.peek()=='\n') { in.get(); }
+            row.push_back( ss.str() );
+
+            return row;
+        }
+        else {
+            ss << c;
+        }
+    }
+
+
+//    return false;
+}
+
+

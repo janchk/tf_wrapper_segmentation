@@ -40,10 +40,14 @@ int main(int argc, char *argv[]) {
     seg_wrapper->set_images({inFileName});
     if(!seg_wrapper->process_images())
         std::cerr << "Failed to process images" << std::endl;
+//
+//    output_indices = seg_wrapper->get_indices();
 
-    output_indices = seg_wrapper->get_indices();
+//    seg_wrapper->
 
-    cv::imwrite("trash.png", output_indices);
+    output_indices = seg_wrapper->get_colored();
+
+    cv::imwrite("out.png", output_indices);
 
     common_ops::delete_safe(seg_wrapper);
 

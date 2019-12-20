@@ -4,6 +4,8 @@
 
 #include "tensorflow_segmentator.h"
 
+#include <utility>
+
 //TODO Main objective is ti remember about Batch
 
 std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationIndices() {
@@ -18,7 +20,7 @@ std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationIndices() {
 
 std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationColored() {
     if (this->_indices.empty() && !this->_colors.empty()) {
-        const auto output = this->_output_tensors[0];
+        const auto output = _output_tensors[0];
         this->_indices = TensorFlowSegmentator::convertTensorToMat(output);
     } else {
         std::cerr << "Colors not set" << std::endl;
@@ -90,13 +92,7 @@ std::string TensorFlowSegmentator::inference(const std::vector<cv::Mat> &imgs) {
         return "Fail to convert Mat to Tensor";
     }
 
-    #ifdef PHASEINPUT
-    tensorflow::Tensor phase_tensor(tensorflow::DT_BOOL, tensorflow::TensorShape());
-    phase_tensor.scalar<bool>()() = false;
-    std::vector<std::pair<string, tensorflow::Tensor>> inputs = {{_input_node_name, input},{"phase_train:0", phase_tensor}};
-    #else
     std::vector<std::pair<string, tensorflow::Tensor>> inputs = {{_input_node_names[0], this->_input_tensor}};
-    #endif
 
     _status = _session->Run(inputs, _output_node_names, {}, &_output_tensors);
 
@@ -106,9 +102,9 @@ std::string TensorFlowSegmentator::inference(const std::vector<cv::Mat> &imgs) {
 }
 
 
-bool TensorFlowSegmentator::setSegmentationColors() {
-
-    return false;
+bool TensorFlowSegmentator::setSegmentationColors(std::vector<std::array<int, 3>> colors) {
+    this->_colors = std::move(colors);
+    return true;
 }
 
 bool TensorFlowSegmentator::set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) {

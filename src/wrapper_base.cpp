@@ -31,6 +31,8 @@ std::vector<cv::Mat> WrapperBase::get_indices() {
 }
 
 std::vector<cv::Mat> WrapperBase::get_colored() {
+    db_handler->load_colors();
+    inference_handler->setSegmentationColors(db_handler->colors);
     std::vector<cv::Mat> colored_indices = this->inference_handler->getOutputSegmentationColored();
     return colored_indices;
 }

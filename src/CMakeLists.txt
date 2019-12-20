@@ -50,9 +50,6 @@ message(TF LIBRARIES ${TensorFlow_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PRIVATE)
 target_link_libraries(${PROJECT_NAME} stdc++fs TensorFlow::TensorFlow ${OpenCV_LIBS})
 
-
-
-
 find_package(CUDA)
 if(CUDA_FOUND)
   target_link_libraries(${PROJECT_NAME} ${CUDA_LIBRARIES})

@@ -16,7 +16,7 @@ public:
     WrapperBase()
     {
         db_handler = new DataHandling();
-        db_handler->config_path = "../../../config.json";
+        db_handler->config_path = "config.json";
         db_handler->load_config();
 
         inference_handler = new TensorFlowSegmentator();
