@@ -43,8 +43,6 @@ int main(int argc, char *argv[]) {
 //
 //    output_indices = seg_wrapper->get_indices();
 
-//    seg_wrapper->
-
     output_indices = seg_wrapper->get_colored();
 
     cv::imwrite("out.png", output_indices);

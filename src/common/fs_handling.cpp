@@ -209,6 +209,8 @@ bool DataHandling::load_colors() {
     while(in.read_row(name, r, g, b)) {
         std::array<int, 3> color = {r, g, b};
         this->colors.emplace_back(color);
+//        std::reverse(std::begin(this->colors), std::end(this->colors));
+//        this->colors.
 //        std::cout << name << r << g << b << std::endl;
     }
 
