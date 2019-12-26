@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     if(!seg_wrapper->process_images())
         std::cerr << "Failed to process images" << std::endl;
 //
-//    output_indices = seg_wrapper->get_indices();
+    output_indices = seg_wrapper->get_indices();
 
     output_indices = seg_wrapper->get_colored();
 

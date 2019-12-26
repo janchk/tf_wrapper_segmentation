@@ -32,12 +32,12 @@ public:
 
     bool process_images();
 
-    std::vector<cv::Mat> get_indices();
+    std::vector<cv::Mat> get_indices(bool resized=true);
 
-    std::vector<cv::Mat> get_colored();
+    std::vector<cv::Mat> get_colored(bool resized=true);
 
 protected:
-
+    std::vector<cv::Size> _img_orig_size;
     std::vector<cv::Mat> _imgs;
     std::vector<cv::Mat> _result;
     DataHandling *db_handler;

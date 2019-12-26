@@ -30,8 +30,13 @@ namespace fs = std::filesystem;
 #endif
 namespace fs_img
 {
+    struct image_data_struct
+    {
+        cv::Size orig_size;
+        cv::Mat img_data;
+    };
 
-    cv::Mat read_img(const std::string &im_filename, cv::Size &size);
+    image_data_struct read_img(const std::string &im_filename, cv::Size &size);
 
     std::vector<std::string> list_imgs(const std::string & dir_path);
 }
@@ -41,6 +46,12 @@ class DataHandling
 public:
     DataHandling() = default;
     virtual ~DataHandling() = default;
+
+    struct image_data_struct
+    {
+        cv::Size orig_size;
+        cv::Mat img_data;
+    };
 
     struct data_vec_entry
     {

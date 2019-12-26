@@ -14,12 +14,14 @@ std::vector<cv::Mat> read_batch(const std::string &imgs_path, int batch_size) {
 
 }
 
-cv::Mat fs_img::read_img(const std::string &im_filename, cv::Size &size ) {
-    cv::Mat img;
-    img = cv::imread(im_filename, cv::IMREAD_COLOR);
+fs_img::image_data_struct fs_img::read_img(const std::string &im_filename, cv::Size &size ) {
+    fs_img::image_data_struct out_data;
+    out_data.img_data = cv::imread(im_filename, cv::IMREAD_COLOR);
+    out_data.orig_size = out_data.img_data.size();
 //    cv::cvtColor(img, img, cv::COLOR_BGR2RGB);
-    tf_aux::fastResizeIfPossible(img, const_cast<cv::Mat *>(&img), size);
-    return img;
+    tf_aux::fastResizeIfPossible(out_data.img_data, const_cast<cv::Mat *>(&out_data.img_data), size);
+
+    return out_data;
 }
 
 bool path_is_img(std::string path){
