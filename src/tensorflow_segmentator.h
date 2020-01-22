@@ -47,8 +47,6 @@ protected:
     std::vector<cv::Mat> _indices;
     std::vector<std::string> _input_node_names;
     std::vector<std::string> _output_node_names;
-//    std::vector<cv::Mat>
-
 
 
 

@@ -21,7 +21,7 @@ std::string parseCommandLine(int argc, char *argv[], const std::string& c) {
         char *filename = getCmdOption(argv, argv + argc, c);
         ret = std::string(filename);
     } else {
-        std::cout << "Use -img $image$"
+        std::cout << "Use -img $path to image$ -colored $true/false$"
                   << std::endl;
         std::exit(EXIT_FAILURE);
     }
@@ -32,18 +32,24 @@ std::string parseCommandLine(int argc, char *argv[], const std::string& c) {
 int main(int argc, char *argv[]) {
 
     std::string const inFileName = parseCommandLine(argc, argv, std::string("-img"));
+    std::string const is_colored = parseCommandLine(argc, argv, std::string("-colored"));
 
     std::vector<cv::Mat> output_indices;
 
     auto *seg_wrapper = new WrapperBase();
 
-    seg_wrapper->set_images({inFileName});
+    seg_wrapper->set_image(inFileName);
     if(!seg_wrapper->process_images())
         std::cerr << "Failed to process images" << std::endl;
-//
-    output_indices = seg_wrapper->get_indices();
 
-    output_indices = seg_wrapper->get_colored();
+    if ("true" == is_colored)
+        output_indices = seg_wrapper->get_colored();
+    else if ("false" == is_colored)
+        output_indices = seg_wrapper->get_indices();
+    else {
+        std::cout << "Option not recognized" << std::endl;
+        return 1;
+    }
 
     cv::imwrite("out.png", output_indices);
 

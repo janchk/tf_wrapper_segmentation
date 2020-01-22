@@ -53,15 +53,9 @@ public:
         cv::Mat img_data;
     };
 
-    struct data_vec_entry
-    {
-        std::string filepath;
-        std::vector<float> embedding;
-    };
+
     struct config_data {
         cv::Size input_size;
-        std::string datafile_path;
-        std::string imgs_path;
         std::string input_node;
         std::string output_node;
         std::string pb_path;
@@ -71,20 +65,14 @@ public:
     // struct with all config data
     config_data config;
 
-   // important variable. It contains information of image paths and corresponding embeddings.
-    std::vector<data_vec_entry> data_vec_base;
 
     std::vector<std::array<int, 3>> colors;
 
     std::string config_path;
 
-    bool load_database();
     bool load_config();
     bool load_colors();
-    bool add_json_entry(data_vec_entry new_data);
 
-    bool add_error_entry(std::string act_class_in, 
-                                        std::string act_path_in, std::string expected_class_in);
 
 protected:
     std::fstream imgs_datafile;
@@ -93,12 +81,7 @@ protected:
 
     std::vector<std::pair<cv::Mat, std::string>> imgs_and_paths;
 
-    std::vector<std::string> _read_csv_row(std::string &line, char delimiter);
-    std::vector<std::string> _read_csv_row(std::istream &in, char delimiter);
-    bool open_csv_file();
-    bool open_datafile();
     bool open_config();
-    bool open_error_datafile();
 };
 
 

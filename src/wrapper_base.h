@@ -28,7 +28,8 @@ public:
     }
     ~WrapperBase();
 
-    bool set_images(const std::vector<std::string>& imgs_paths);
+    bool set_images(const std::vector<std::string>& imgs_paths); // opt for future_batch
+    bool set_image(const std::string & img_path);
 
     bool process_images();
 

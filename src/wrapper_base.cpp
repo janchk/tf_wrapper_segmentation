@@ -15,7 +15,15 @@ bool WrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
     }
     return true;
 }
+bool WrapperBase::set_image(const std::string &img_path) {
+    fs_img::image_data_struct cur_img;
 
+    cur_img = fs_img::read_img(img_path, db_handler->config.input_size);
+    this->_imgs.emplace_back(std::move(cur_img.img_data));
+    this->_img_orig_size.emplace_back(std::move(cur_img.orig_size));
+
+    return true;
+}
 bool WrapperBase::process_images() {
     this->inference_handler->load(db_handler->config.pb_path, db_handler->config.input_node);
     this->inference_handler->inference(this->_imgs);
