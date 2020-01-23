@@ -6,6 +6,18 @@
 
 #include <utility>
 
+WrapperBase::WrapperBase() {
+    db_handler = new DataHandling();
+    db_handler->load_config();
+
+    inference_handler = new TensorFlowSegmentator();
+
+    //TODO this is kinda implicit. Why is converting string to vec.
+    inference_handler->set_input_output({db_handler->config.input_node}, {db_handler->config.output_node});
+    inference_handler->load(db_handler->config.pb_path, db_handler->config.input_node);
+}
+
+
 bool WrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
     fs_img::image_data_struct cur_img;
     for (const auto &img_path : imgs_paths) {
@@ -15,17 +27,9 @@ bool WrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
     }
     return true;
 }
-bool WrapperBase::set_image(const std::string &img_path) {
-    fs_img::image_data_struct cur_img;
 
-    cur_img = fs_img::read_img(img_path, db_handler->config.input_size);
-    this->_imgs.emplace_back(std::move(cur_img.img_data));
-    this->_img_orig_size.emplace_back(std::move(cur_img.orig_size));
-
-    return true;
-}
 bool WrapperBase::process_images() {
-    this->inference_handler->load(db_handler->config.pb_path, db_handler->config.input_node);
+    this->inference_handler->clearData(); /// Need to clear data that may be saved from previous launch
     for (unsigned int i=0; i < _imgs.size(); ++i) {
         std::cout << "Wrapper Info:"<< i+1 << " of " << _imgs.size() << " was processed" << std::endl;
         this->inference_handler->inference({_imgs[i]});

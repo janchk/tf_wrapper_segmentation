@@ -44,7 +44,10 @@ namespace fs_img
 class DataHandling
 {
 public:
-    DataHandling() = default;
+    DataHandling()
+    {
+        config_path = "config.json";
+    }
     virtual ~DataHandling() = default;
 
     struct image_data_struct
@@ -75,9 +78,7 @@ public:
 
 
 protected:
-    std::fstream imgs_datafile;
     std::fstream config_datafile;
-    std::fstream errors_datafile;
 
     std::vector<std::pair<cv::Mat, std::string>> imgs_and_paths;
 

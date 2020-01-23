@@ -32,6 +32,8 @@ public:
 
     bool setSegmentationColors(std::vector<std::array<int, 3>> colors);
 
+    bool clearData();
+
     bool normalize_image(cv::Mat &img);
 
     std::vector<cv::Mat> convertTensorToMat(const tensorflow::Tensor& tensor);

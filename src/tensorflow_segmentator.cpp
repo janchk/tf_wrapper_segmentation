@@ -115,11 +115,22 @@ std::string TensorFlowSegmentator::inference(const std::vector<cv::Mat> &imgs) {
 
 bool TensorFlowSegmentator::setSegmentationColors(std::vector<std::array<int, 3>> colors) {
     this->_colors = std::move(colors);
+
     return true;
 }
 
 bool TensorFlowSegmentator::set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) {
     this->_input_node_names = std::move(in_nodes);
     this->_output_node_names = std::move(out_nodes);
+
+    return true;
+}
+
+bool TensorFlowSegmentator::clearData() {
+    if (!this->_out_tensors_vector.empty())
+        this->_out_tensors_vector.clear();
+    if (!this->_indices.empty())
+        this->_indices.clear();
+
     return true;
 }

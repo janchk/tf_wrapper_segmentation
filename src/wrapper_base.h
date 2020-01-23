@@ -13,23 +13,11 @@ class WrapperBase
 {
 public:
 
-    WrapperBase()
-    {
-        db_handler = new DataHandling();
-        db_handler->config_path = "config.json";
-        db_handler->load_config();
+    WrapperBase();
 
-        inference_handler = new TensorFlowSegmentator();
-
-        //TODO this is kinda implicit. Why is converting string to vec.
-        inference_handler->set_input_output({db_handler->config.input_node}, {db_handler->config.output_node});
-
-
-    }
     ~WrapperBase();
 
     bool set_images(const std::vector<std::string>& imgs_paths); // opt for future_batch
-    bool set_image(const std::string & img_path);
 
     bool process_images();
 
