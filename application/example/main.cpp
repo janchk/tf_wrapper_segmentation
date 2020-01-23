@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     auto *seg_wrapper = new WrapperBase();
 
-    seg_wrapper->set_images({inFileName, inFileName});
+    seg_wrapper->set_images({inFileName});
     if(!seg_wrapper->process_images())
         std::cerr << "Failed to process images" << std::endl;
 
