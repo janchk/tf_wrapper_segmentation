@@ -9,9 +9,13 @@
 //TODO Main objective is ti remember about Batch
 
 std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationIndices() {
+    std::vector<cv::Mat> _out_data;
     if (_indices.empty()) {
-        const auto output = _output_tensors[0];
-        this->_indices = TensorFlowSegmentator::convertTensorToMat(output);
+        for (const auto &output: this->_out_tensors_vector) {
+            _out_data = std::move(TensorFlowSegmentator::convertTensorToMat(output));
+            this->_indices.insert(this->_indices.begin(), _out_data.begin(),  _out_data.end());
+//            this->_indices.emplace_back(TensorFlowSegmentator::convertTensorToMat(output));
+        }
     } else
         this->_indices = {};
     return this->_indices;
@@ -19,9 +23,12 @@ std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationIndices() {
 }
 
 std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationColored() {
+    std::vector<cv::Mat> _out_data;
     if (this->_indices.empty() && !this->_colors.empty()) {
-        const auto output = _output_tensors[0];
-        this->_indices = TensorFlowSegmentator::convertTensorToMat(output);
+        for(const auto &output : this->_out_tensors_vector) {
+            _out_data = std::move(TensorFlowSegmentator::convertTensorToMat(output));
+            this->_indices.insert(this->_indices.begin(), _out_data.begin(),  _out_data.end());
+        }
     } else {
         std::cerr << "Colors not set" << std::endl;
         this->_indices = {};
@@ -96,6 +103,10 @@ std::string TensorFlowSegmentator::inference(const std::vector<cv::Mat> &imgs) {
 
     _status = _session->Run(inputs, _output_node_names, {}, &_output_tensors);
 
+    /// _output_tensors is a vector of tensors where each tensor represent every possible output from net
+    /// taking 0'th out we targeting tensor that contains output indices that we need
+
+    this->_out_tensors_vector.emplace_back(std::move(this->_output_tensors[0]));
     TF_CHECK_OK(_status);
 //    tf_aux::DebugOutput("NETWORK_STATUS", _status.ToString());
     return _status.ToString();

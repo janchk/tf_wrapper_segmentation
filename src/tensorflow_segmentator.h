@@ -44,6 +44,7 @@ protected:
     tensorflow::Tensor _input_tensor;
 
     std::vector<cv::Mat> _imgs;
+    std::vector<tensorflow::Tensor> _out_tensors_vector;
     std::vector<cv::Mat> _indices;
     std::vector<std::string> _input_node_names;
     std::vector<std::string> _output_node_names;

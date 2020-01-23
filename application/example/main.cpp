@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     auto *seg_wrapper = new WrapperBase();
 
-    seg_wrapper->set_image(inFileName);
+    seg_wrapper->set_images({inFileName, inFileName});
     if(!seg_wrapper->process_images())
         std::cerr << "Failed to process images" << std::endl;
 
@@ -50,8 +50,9 @@ int main(int argc, char *argv[]) {
         std::cout << "Option not recognized" << std::endl;
         return 1;
     }
-
-    cv::imwrite("out.png", output_indices);
+    for (unsigned int i=0; i < output_indices.size(); ++i) {
+        cv::imwrite(cv::format("out_%i.png", i), output_indices[i]);
+    }
 
     common_ops::delete_safe(seg_wrapper);
 

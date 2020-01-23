@@ -26,8 +26,10 @@ bool WrapperBase::set_image(const std::string &img_path) {
 }
 bool WrapperBase::process_images() {
     this->inference_handler->load(db_handler->config.pb_path, db_handler->config.input_node);
-    this->inference_handler->inference(this->_imgs);
-
+    for (unsigned int i=0; i < _imgs.size(); ++i) {
+        std::cout << "Wrapper Info:"<< i+1 << " of " << _imgs.size() << " was processed" << std::endl;
+        this->inference_handler->inference({_imgs[i]});
+    }
     return true;
 }
 
