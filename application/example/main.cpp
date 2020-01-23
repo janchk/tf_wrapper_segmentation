@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Option not recognized" << std::endl;
         return 1;
     }
-    for (unsigned int i=0; i < output_indices.size(); ++i) {
+    for (unsigned long i=0; i < output_indices.size(); ++i) {
         cv::imwrite(cv::format("out_%i.png", i), output_indices[i]);
     }
 

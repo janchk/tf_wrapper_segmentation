@@ -17,6 +17,10 @@ WrapperBase::WrapperBase() {
     inference_handler->load(db_handler->config.pb_path, db_handler->config.input_node);
 }
 
+WrapperBase::~WrapperBase() {
+    common_ops::delete_safe( inference_handler);
+    common_ops::delete_safe(db_handler);
+}
 
 bool WrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
     fs_img::image_data_struct cur_img;
@@ -35,11 +39,6 @@ bool WrapperBase::process_images() {
         this->inference_handler->inference({_imgs[i]});
     }
     return true;
-}
-
-WrapperBase::~WrapperBase() {
-    common_ops::delete_safe( inference_handler);
-    common_ops::delete_safe(db_handler);
 }
 
 std::vector<cv::Mat> WrapperBase::get_indices(bool resized) {
