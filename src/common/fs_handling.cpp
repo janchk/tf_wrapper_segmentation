@@ -7,13 +7,6 @@
 
 
 
-std::vector<cv::Mat> read_batch(const std::string &imgs_path, int batch_size) {
-    std::vector<cv::Mat> batch;
-    cv::Mat batch_image;
-    batch.push_back(batch_image);
-
-}
-
 fs_img::image_data_struct fs_img::read_img(const std::string &im_filename, cv::Size &size ) {
     fs_img::image_data_struct out_data;
     out_data.img_data = cv::imread(im_filename, cv::IMREAD_COLOR);
@@ -40,7 +33,7 @@ std::vector<std::string> fs_img::list_imgs(const std::string &dir_path) {
 }
 
 bool DataHandling::open_config() {
-    this->config_datafile.open(config_path, std::ios::in | std::ios::app);
+    config_datafile.open(config_path, std::ios::in | std::ios::app);
     return true;
 }
 
@@ -53,7 +46,7 @@ bool DataHandling::load_config() {
 
     open_config();
 
-    if (this->config_datafile.is_open()) {
+    if (config_datafile.is_open()) {
         std::getline(config_datafile, line);
         doc.Parse(line.c_str());
         if (doc.IsObject()) {
@@ -86,7 +79,7 @@ bool DataHandling::load_colors() {
     std::string name; int r; int g; int b;
     while(in.read_row(name, r, g, b)) {
         std::array<int, 3> color = {r, g, b};
-        this->colors.emplace_back(color);
+        colors.emplace_back(color);
 //        std::reverse(std::begin(this->colors), std::end(this->colors));
 //        this->colors.
 //        std::cout << name << r << g << b << std::endl;

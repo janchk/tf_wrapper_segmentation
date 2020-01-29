@@ -36,16 +36,16 @@ int main(int argc, char *argv[]) {
 
     std::vector<cv::Mat> output_indices;
 
-    auto *seg_wrapper = new WrapperBase();
+    auto seg_wrapper = WrapperBase();
 
-    seg_wrapper->set_images({inFileName});
-    if(!seg_wrapper->process_images())
+    seg_wrapper.set_images({inFileName, inFileName, inFileName});
+    PROFILE_BLOCK("process images");
+    if(!seg_wrapper.process_images())
         std::cerr << "Failed to process images" << std::endl;
-
     if ("true" == is_colored)
-        output_indices = seg_wrapper->get_colored();
+        output_indices = seg_wrapper.get_colored();
     else if ("false" == is_colored)
-        output_indices = seg_wrapper->get_indices();
+        output_indices = seg_wrapper.get_indices();
     else {
         std::cout << "Option not recognized" << std::endl;
         return 1;
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
         cv::imwrite(cv::format("out_%i.png", i), output_indices[i]);
     }
 
-    common_ops::delete_safe(seg_wrapper);
+//    common_ops::delete_safe(seg_wrapper);
 
     std::cout << "Wrapper finished successfully" << std::endl;
     return 0;

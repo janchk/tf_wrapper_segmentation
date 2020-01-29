@@ -17,7 +17,7 @@ class TensorFlowSegmentator : public TensorflowWrapperCore
 {
 public:
     TensorFlowSegmentator() {
-        this->_colors = {};
+        _colors = {};
 
     };
     virtual  ~TensorFlowSegmentator() = default;

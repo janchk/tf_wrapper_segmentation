@@ -9,6 +9,8 @@
 #include "tensorflow_segmentator.h"
 #include "common/common_ops.h"
 
+// TODO Make WrapperBase abstract
+
 class WrapperBase
 {
 public:
@@ -21,11 +23,19 @@ public:
 
     bool process_images();
 
+    bool configure_wrapper( const cv::Size& input_size,
+                            const std::string& colors_path,
+                            const std::string& pb_path,
+                            const std::string& input_node,
+                            const std::string& output_node);
+
     std::vector<cv::Mat> get_indices(bool resized=true);
 
     std::vector<cv::Mat> get_colored(bool resized=true);
 
 protected:
+    bool _is_configured = false;
+    cv::Size _img_des_size;
     std::vector<cv::Size> _img_orig_size;
     std::vector<cv::Mat> _imgs;
     std::vector<cv::Mat> _result;

@@ -56,6 +56,7 @@ struct profiler {
         auto d = std::chrono::high_resolution_clock::now() - p;
         std::cout << name << ": "
             << std::chrono::duration_cast<dura>(d).count()
+            << " seconds"
             << std::endl;
     }
 };
