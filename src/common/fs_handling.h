@@ -18,7 +18,7 @@
 
 #include "csv/csv.h"
 
-#include "../tensorflow_auxiliary.h"
+#include "../tensorflow_auxiliary.h" //TODO get rid of this
 
 #define EXPERIMENTAL
 #ifdef EXPERIMENTAL
@@ -46,7 +46,7 @@ class DataHandling
 public:
     DataHandling()
     {
-        config_path = "config.json";
+        config_path = "";
     }
     virtual ~DataHandling() = default;
 
@@ -65,14 +65,14 @@ public:
         std::string colors_path;
     };
 
+
+
     // struct with all config data
     config_data config;
-
-
     std::vector<std::array<int, 3>> colors;
-
     std::string config_path;
 
+    bool set_config_path(std::string path);
     bool load_config();
     bool load_colors();
 

@@ -5,33 +5,52 @@
 #ifndef TF_WRAPPER_SEGMENTATION_WRAPPER_BASE_H
 #define TF_WRAPPER_SEGMENTATION_WRAPPER_BASE_H
 
-#include "common/fs_handling.h"
-#include "tensorflow_segmentator.h"
-#include "common/common_ops.h"
 
-// TODO Make WrapperBase abstract
 
-class WrapperBase
+class SegmentationWrapperBase
 {
 public:
 
-    WrapperBase();
+    SegmentationWrapperBase();
 
-    ~WrapperBase();
+    ~SegmentationWrapperBase();
 
-    bool set_images(const std::vector<std::string>& imgs_paths); // opt for future_batch
+    /// \brief
+    /// \param imgs_paths
+    /// \return
+    virtual bool set_images(const std::vector<std::string>& imgs_paths); // opt for future_batch
 
-    bool process_images();
+    /// \brief
+    /// \return
+    virtual bool process_images();
 
-    bool configure_wrapper( const cv::Size& input_size,
+    /// \brief Method for configuring wrapper if config need to be loaded from file
+    /// \param config_path is a path to .json file with config to wrapper
+    /// \return
+    virtual bool load_config(std::string config_path); // ="config.json"
+
+    /// \brief Method for configuring wrapper by set all values explicitly
+    /// \param input_size is a size for input images. Need to be set according to network architecture that are using.
+    /// \param colors_path is a path to classes and according colors of dataset that network is pretrained on.
+    /// \param pb_path is a path for pretrained protobuf file
+    /// \param input_node is a name of input node
+    /// \param output_node is a name of output node
+    /// \return
+    virtual bool configure_wrapper( const cv::Size& input_size,
                             const std::string& colors_path,
                             const std::string& pb_path,
                             const std::string& input_node,
                             const std::string& output_node);
 
-    std::vector<cv::Mat> get_indices(bool resized=true);
+    /// \brief
+    /// \param resized
+    /// \return
+    virtual std::vector<cv::Mat> get_indices(bool resized); // =true
 
-    std::vector<cv::Mat> get_colored(bool resized=true);
+    /// \brief
+    /// \param resized
+    /// \return
+    virtual std::vector<cv::Mat> get_colored(bool resized); // =true
 
 protected:
     bool _is_configured = false;
@@ -39,8 +58,8 @@ protected:
     std::vector<cv::Size> _img_orig_size;
     std::vector<cv::Mat> _imgs;
     std::vector<cv::Mat> _result;
-    DataHandling *db_handler;
-    TensorFlowSegmentator *inference_handler;
+
+//    auto *inf;
 
 
 };

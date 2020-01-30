@@ -117,8 +117,9 @@ bool TensorflowWrapperCore::load(const std::string &filename, const std::string 
 std::string TensorflowWrapperCore::inference(const std::vector<cv::Mat> &imgs){
     using namespace tensorflow;
 
-    Tensor input = getConvertFunction(INPUT_TYPE::DT_FLOAT)(imgs, _input_height, _input_width, _input_depth, _convert_to_float, _mean);
-
+//    Tensor input = getConvertFunction(INPUT_TYPE::DT_FLOAT)(imgs, _input_height, _input_width, _input_depth, _convert_to_float, _mean);
+    Tensor input;
+    tf_aux::convertMatToTensor_v2(imgs, input);
     std::vector<int> in_tensor_shape = tf_aux::get_tensor_shape(input);
     std::vector<std::pair<string, tensorflow::Tensor>> inputs = {{_input_node_names[0], input}};
     std::cout << _input_node_names[0] << std::endl;

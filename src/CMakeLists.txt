@@ -20,20 +20,22 @@ target_include_directories(${PROJECT_NAME}
 
 target_sources(${PROJECT_NAME}
         PUBLIC
+
+        ${CMAKE_CURRENT_LIST_DIR}/wrapper_base.h
+
+        PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_auxiliary.h
+        ${CMAKE_CURRENT_LIST_DIR}/common/fs_handling.h
+        ${CMAKE_CURRENT_LIST_DIR}/common/common_ops.h
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.h
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_wrapper_core.h
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_segmentator.h
-        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_auxiliary.h
-        ${CMAKE_CURRENT_LIST_DIR}/wrapper_legacy.h
-        ${CMAKE_CURRENT_LIST_DIR}/wrapper_base.h
-        ${CMAKE_CURRENT_LIST_DIR}/common/fs_handling.h
-        ${CMAKE_CURRENT_LIST_DIR}/common/common_ops.h
-        PRIVATE
+
+
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.cpp
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_wrapper_core.cpp
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_segmentator.cpp
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_auxiliary.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/wrapper_legacy.cpp
         ${CMAKE_CURRENT_LIST_DIR}/wrapper_base.cpp
         ${CMAKE_CURRENT_LIST_DIR}/common/fs_handling.cpp
         ${CMAKE_CURRENT_LIST_DIR}/common/common_ops.cpp

@@ -41,6 +41,10 @@ bool DataHandling::open_config() {
 
 bool DataHandling::load_config() {
     using namespace rapidjson;
+    if (config_path.empty()) {
+        std::cerr << "You need to set config path first!" << std::endl;
+        return false;
+    }
     Document doc;
     std::string line;
 
@@ -85,6 +89,11 @@ bool DataHandling::load_colors() {
 //        std::cout << name << r << g << b << std::endl;
     }
 
+    return true;
+}
+
+bool DataHandling::set_config_path(std::string path="config.json") {
+    config_path = std::move(path);
     return true;
 }
 
