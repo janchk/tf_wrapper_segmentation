@@ -4,7 +4,7 @@
 
 #include "fs_handling.h"
 #include <utility>
-
+#include "../tensorflow_auxiliary.h"
 
 
 fs_img::image_data_struct fs_img::read_img(const std::string &im_filename, cv::Size &size ) {

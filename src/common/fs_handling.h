@@ -18,7 +18,6 @@
 
 #include "csv/csv.h"
 
-#include "../tensorflow_auxiliary.h" //TODO get rid of this
 
 #define EXPERIMENTAL
 #ifdef EXPERIMENTAL
