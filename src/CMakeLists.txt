@@ -30,6 +30,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.h
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_wrapper_core.h
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_segmentator.h
+        ${CMAKE_CURRENT_LIST_DIR}/wrapper_interfaces.h
+        ${CMAKE_CURRENT_LIST_DIR}/interfaces.h
 
 
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.cpp

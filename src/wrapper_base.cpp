@@ -2,20 +2,19 @@
 // Created by jakhremchik
 //
 
-#include "common/common_ops.h"
 #include "wrapper_base.h"
 #include "tensorflow_segmentator.h"
 #include "common/fs_handling.h"
+#include "wrapper_interfaces.h"
 
 #include <utility>
 
 DataHandling db_handler;
-TensorFlowSegmentator inference_handler;
 
-SegmentationWrapperBase::SegmentationWrapperBase() {}
+SegmentationWrapperBase::SegmentationWrapperBase() : inference_handler (new TensorFlowSegmentatorInterface) {};
 
-SegmentationWrapperBase::~SegmentationWrapperBase() {}
-
+//SegmentationWrapperBase::SegmentationWrapperBase() : inference_handler (new TensorFlowSegmentatorInterface),
+//                                                     db_handler (new WrapperDBInterface) {}
 
 bool SegmentationWrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
    if (!_is_configured) {
@@ -37,16 +36,16 @@ bool SegmentationWrapperBase::process_images() {
         std::cerr << "You need to configure wrapper first!" << std::endl;
         return false;
     }
-    inference_handler.clearData(); /// Need to clear data that may be saved from previous launch
+    inference_handler->clearData(); /// Need to clear data that may be saved from previous launch
     for (unsigned long i=0; i < _imgs.size(); ++i) {
         std::cout << "Wrapper Info:"<< i+1 << " of " << _imgs.size() << " was processed" << std::endl;
-        inference_handler.inference({_imgs[i]});
+        inference_handler->inference({_imgs[i]});
     }
     return true;
 }
 
 std::vector<cv::Mat> SegmentationWrapperBase::get_indices(bool resized) {
-    std::vector<cv::Mat> indices = inference_handler.getOutputSegmentationIndices();
+    std::vector<cv::Mat> indices = inference_handler->getOutputSegmentationIndices();
     if (resized) {
         for (auto i = 0; i != indices.size(); ++i) {
             cv::resize(indices[i], indices[i], _img_orig_size[i], 0, 0, cv::INTER_LINEAR);
@@ -58,8 +57,8 @@ std::vector<cv::Mat> SegmentationWrapperBase::get_indices(bool resized) {
 
 std::vector<cv::Mat> SegmentationWrapperBase::get_colored(bool resized) {
     db_handler.load_colors();
-    inference_handler.setSegmentationColors(db_handler.colors);
-    std::vector<cv::Mat> colored_indices = inference_handler.getOutputSegmentationColored();
+    inference_handler->setSegmentationColors(db_handler.colors);
+    std::vector<cv::Mat> colored_indices = inference_handler->getOutputSegmentationColored();
     if (resized) {
         for (auto i = 0; i != colored_indices.size(); ++i) {
             cv::resize(colored_indices[i], colored_indices[i], _img_orig_size[i], 0, 0, cv::INTER_LINEAR);
@@ -76,8 +75,8 @@ bool SegmentationWrapperBase::configure_wrapper(const cv::Size& input_size,
                                                 const std::string& output_node)
 {
     _img_des_size = input_size;
-    inference_handler.set_input_output({input_node}, {output_node});
-    inference_handler.load(pb_path, input_node);
+    inference_handler->set_input_output({input_node}, {output_node});
+    auto a = inference_handler->load(pb_path, input_node);
     db_handler.config.colors_path = colors_path; // Not very safe
 
     _is_configured = true;
@@ -90,12 +89,14 @@ bool SegmentationWrapperBase::load_config(std::string config_path) {
         return false;
     //TODO this is kinda implicit. Why is converting string to vec.
     _img_des_size = db_handler.config.input_size;
-    inference_handler.set_input_output({db_handler.config.input_node}, {db_handler.config.output_node});
-    inference_handler.load(db_handler.config.pb_path, db_handler.config.input_node);
+    inference_handler->set_input_output({db_handler.config.input_node}, {db_handler.config.output_node});
+    inference_handler->load(db_handler.config.pb_path, db_handler.config.input_node);
     _is_configured = true;
 
     return true;
 }
+
+
 
 
 

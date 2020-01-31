@@ -36,16 +36,16 @@ std::vector<cv::Mat> TensorFlowSegmentator::getOutputSegmentationColored() {
     return _indices;
 }
 
-bool TensorFlowSegmentator::normalize_image(cv::Mat &img) {
-    double  min, max;
-    cv::Scalar data = img.at<cv::Vec3b>(0,0);
-    cv::minMaxLoc(img, &min, &max);
-    img.convertTo(img, CV_32F, 1, 0); //TODO normalize it in a right way
-    img = ((img - cv::Scalar(min, min, min)) / (max - min));
-    img = (img * 2) - cv::Scalar(1);
-
-    return true;
-}
+//bool TensorFlowSegmentator::normalize_image(cv::Mat &img) {
+//    double  min, max;
+//    cv::Scalar data = img.at<cv::Vec3b>(0,0);
+//    cv::minMaxLoc(img, &min, &max);
+//    img.convertTo(img, CV_32F, 1, 0); //TODO normalize it in a right way
+//    img = ((img - cv::Scalar(min, min, min)) / (max - min));
+//    img = (img * 2) - cv::Scalar(1);
+//
+//    return true;
+//}
 
 std::vector<cv::Mat> TensorFlowSegmentator::convertTensorToMat(const tensorflow::Tensor &tensor) {
 

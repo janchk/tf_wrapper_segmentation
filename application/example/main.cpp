@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<cv::Mat> output_indices;
 
-    SegmentatorWrapper seg_wrapper;
+    SegmentationWrapperBase seg_wrapper;
 
 //    seg_wrapper.load_config("config.json");
 

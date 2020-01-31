@@ -7,10 +7,10 @@
 
 #include "wrapper_base.h"
 
-class SegmentatorWrapper : public SegmentationWrapperBase
-{
+//class SegmentatorWrapper : public SegmentationWrapperBase
+//{
 
 
-};
+//};
 
 #endif //TF_WRAPPER_SEGMENTATION_MAIN_H

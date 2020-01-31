@@ -97,5 +97,50 @@ bool DataHandling::set_config_path(std::string path="config.json") {
     return true;
 }
 
+cv::Size DataHandling::get_config_input_size() {
+    return config.input_size;
+}
+
+std::string DataHandling::get_config_input_node() {
+    return config.input_node;
+}
+
+std::string DataHandling::get_config_output_node() {
+    return config.output_node;
+}
+
+std::string DataHandling::get_config_pb_path() {
+    return config.pb_path;
+}
+
+std::string DataHandling::get_config_colors_path() {
+    return config.colors_path;
+}
+
+bool DataHandling::set_config_input_size(const cv::Size& size) {
+    config.input_size = size;
+    return true;
+}
+
+bool DataHandling::set_config_input_node(const std::string& input_node) {
+    config.input_node = input_node;
+    return true;
+}
+
+bool DataHandling::set_config_output_node(const std::string& output_node) {
+    config.output_node = output_node;
+    return true;
+}
+
+bool DataHandling::set_config_pb_path(const std::string& pb_path) {
+    config.pb_path = pb_path;
+    return true;
+}
+
+bool DataHandling::set_config_colors_path(const std::string& colors_path) {
+    config.colors_path = colors_path;
+    return true;
+}
+
 
 

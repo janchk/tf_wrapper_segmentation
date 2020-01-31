@@ -13,6 +13,7 @@
 #include "tensorflow_wrapper_core.h"
 #include "tensorflow_base.h"
 
+///This is supposed to be an abstract class
 class TensorFlowSegmentator : public TensorflowWrapperCore
 {
 public:
@@ -20,27 +21,26 @@ public:
         _colors = {};
 
     };
-    virtual  ~TensorFlowSegmentator() = default;
+    ~TensorFlowSegmentator() override = default;
 
-    bool set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes);
+    virtual bool set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes);
 
-    std::string inference(const std::vector<cv::Mat> &imgs) override;
+    std::string inference(const std::vector<cv::Mat> &imgs) override ;
 
-    std::vector<cv::Mat> getOutputSegmentationIndices();
+    virtual std::vector<cv::Mat> getOutputSegmentationIndices();
 
-    std::vector<cv::Mat> getOutputSegmentationColored();
+    virtual std::vector<cv::Mat> getOutputSegmentationColored();
 
-    bool setSegmentationColors(std::vector<std::array<int, 3>> colors);
+    virtual bool setSegmentationColors(std::vector<std::array<int, 3>> colors);
 
-    bool clearData();
+    virtual bool clearData();
 
-    bool normalize_image(cv::Mat &img);
-
-    std::vector<cv::Mat> convertTensorToMat(const tensorflow::Tensor& tensor);
+//    bool normalize_image(cv::Mat &img);
 
 protected:
 
-//    std::vector<std::vector<int>> _colors;
+    std::vector<cv::Mat> convertTensorToMat(const tensorflow::Tensor& tensor);
+
     std::vector<std::array<int, 3>> _colors;
     tensorflow::Status _status;
     tensorflow::Tensor _input_tensor;
