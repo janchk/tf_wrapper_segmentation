@@ -1,6 +1,6 @@
 project(TF_WRAPPER_SEGMENTATION_EXAMPLE)
 
-add_executable(TF_SEGMENTATOR main.cpp main.h)
+add_executable(TF_SEGMENTATOR main.cpp)
 
 configure_file(../../config.json ${CMAKE_BINARY_DIR}/application/example COPYONLY)
 

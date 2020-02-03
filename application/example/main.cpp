@@ -2,8 +2,7 @@
 #include <vector>
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgcodecs.hpp>
-//#include <tensorflow_auxiliary.h>
-#include "main.h"
+#include "wrapper_base.h"
 
 
 char *getCmdOption(char **begin, char **end, const std::string &option) {
