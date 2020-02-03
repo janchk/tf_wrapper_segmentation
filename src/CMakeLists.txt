@@ -21,17 +21,17 @@ target_include_directories(${PROJECT_NAME}
 target_sources(${PROJECT_NAME}
         PUBLIC
 
-        ${CMAKE_CURRENT_LIST_DIR}/wrapper_base.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/wrapper_base.h
 
         PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_auxiliary.h
-        ${CMAKE_CURRENT_LIST_DIR}/common/fs_handling.h
-        ${CMAKE_CURRENT_LIST_DIR}/common/common_ops.h
-        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.h
-        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_wrapper_core.h
-        ${CMAKE_CURRENT_LIST_DIR}/tensorflow_segmentator.h
-        ${CMAKE_CURRENT_LIST_DIR}/wrapper_interfaces.h
-        ${CMAKE_CURRENT_LIST_DIR}/interfaces.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/tensorflow_auxiliary.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/common/fs_handling.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/common/common_ops.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/tensorflow_base.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/tensorflow_wrapper_core.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/tensorflow_segmentator.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/wrapper_interfaces.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../include/interfaces.h
 
 
         ${CMAKE_CURRENT_LIST_DIR}/tensorflow_base.cpp
