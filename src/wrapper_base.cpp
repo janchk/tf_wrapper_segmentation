@@ -9,12 +9,9 @@
 
 #include <utility>
 
-DataHandling db_handler;
 
-SegmentationWrapperBase::SegmentationWrapperBase() : inference_handler (new TensorFlowSegmentatorInterface) {};
-
-//SegmentationWrapperBase::SegmentationWrapperBase() : inference_handler (new TensorFlowSegmentatorInterface),
-//                                                     db_handler (new WrapperDBInterface) {}
+SegmentationWrapperBase::SegmentationWrapperBase() : inference_handler (new TensorFlowSegmentatorInterface),
+                                                     db_handler (new WrapperDBInterface) {}
 
 bool SegmentationWrapperBase::set_images(const std::vector<std::string>& imgs_paths) {
    if (!_is_configured) {
@@ -23,7 +20,6 @@ bool SegmentationWrapperBase::set_images(const std::vector<std::string>& imgs_pa
    }
     fs_img::image_data_struct cur_img;
     for (const auto &img_path : imgs_paths) {
-//        cur_img = fs_img::read_img(img_path, db_handler->config.input_size);
         cur_img = fs_img::read_img(img_path, _img_des_size);
         _imgs.emplace_back(std::move(cur_img.img_data));
         _img_orig_size.emplace_back(std::move(cur_img.orig_size));
@@ -56,8 +52,8 @@ std::vector<cv::Mat> SegmentationWrapperBase::get_indices(bool resized) {
 }
 
 std::vector<cv::Mat> SegmentationWrapperBase::get_colored(bool resized) {
-    db_handler.load_colors();
-    inference_handler->setSegmentationColors(db_handler.colors);
+    db_handler->load_colors();
+    inference_handler->setSegmentationColors(db_handler->get_colors());
     std::vector<cv::Mat> colored_indices = inference_handler->getOutputSegmentationColored();
     if (resized) {
         for (auto i = 0; i != colored_indices.size(); ++i) {
@@ -76,21 +72,21 @@ bool SegmentationWrapperBase::configure_wrapper(const cv::Size& input_size,
 {
     _img_des_size = input_size;
     inference_handler->set_input_output({input_node}, {output_node});
-    auto a = inference_handler->load(pb_path, input_node);
-    db_handler.config.colors_path = colors_path; // Not very safe
+    inference_handler->load(pb_path, input_node);
+    db_handler->set_config_colors_path(colors_path);
 
     _is_configured = true;
     return true;
 }
 
 bool SegmentationWrapperBase::load_config(std::string config_path) {
-    db_handler.set_config_path(std::move(config_path));
-    if (!db_handler.load_config())
+    db_handler->set_config_path(std::move(config_path));
+    if (!db_handler->load_config())
         return false;
     //TODO this is kinda implicit. Why is converting string to vec.
-    _img_des_size = db_handler.config.input_size;
-    inference_handler->set_input_output({db_handler.config.input_node}, {db_handler.config.output_node});
-    inference_handler->load(db_handler.config.pb_path, db_handler.config.input_node);
+    db_handler->set_config_input_size(_img_des_size);
+    inference_handler->set_input_output({db_handler->get_config_input_node()}, {db_handler->get_config_output_node()});
+    inference_handler->load(db_handler->get_config_pb_path(), db_handler->get_config_input_node());
     _is_configured = true;
 
     return true;

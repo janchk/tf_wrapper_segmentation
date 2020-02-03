@@ -5,7 +5,7 @@
 #ifndef TF_WRAPPER_SEGMENTATION_WRAPPER_BASE_H
 #define TF_WRAPPER_SEGMENTATION_WRAPPER_BASE_H
 
-#include "wrapper_interfaces.h"
+#include "interfaces.h"
 
 class SegmentationWrapperBase
 {
@@ -59,7 +59,7 @@ protected:
     std::vector<cv::Mat> _imgs;
     std::vector<cv::Mat> _result;
     std::unique_ptr<SegmentatorInterface> inference_handler;
-//    std::unique_ptr<DBInterface> db_handler;
+    std::unique_ptr<DBInterface> db_handler;
 
 };
 

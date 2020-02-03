@@ -39,12 +39,11 @@ int main(int argc, char *argv[]) {
     std::string const is_colored = parseCommandLine(argc, argv, std::string("-colored"));
 
     std::vector<cv::Mat> output_indices;
-
     SegmentationWrapperBase seg_wrapper;
 
 //    seg_wrapper.load_config("config.json");
 
-    seg_wrapper.configure_wrapper(cv::Size(256, 256),
+    seg_wrapper.configure_wrapper(cv::Size(1024, 1024),
                                     "/home/jakhremchik/CLionProjects/TF_WRAPPER_SEGMENTATION/classes.csv",
                                     "/home/jakhremchik/Downloads/train_fine/frozen_inference_graph.pb",
                                     "ImageTensor:0",

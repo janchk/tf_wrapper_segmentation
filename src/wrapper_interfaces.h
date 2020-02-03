@@ -5,10 +5,9 @@
 #ifndef TF_WRAPPER_SEGMENTATION_WRAPPER_INTERFACES_H
 #define TF_WRAPPER_SEGMENTATION_WRAPPER_INTERFACES_H
 
-#include "tensorflow_segmentator.h"
+//#include "tensorflow_segmentator.h"
 #include "interfaces.h"
-#include "common/fs_handling.h"
-//#include "wrapper_base.h"
+//#include "common/fs_handling.h"
 
 class TensorFlowSegmentatorInterface : public SegmentatorInterface
 {
@@ -45,6 +44,7 @@ public:
     std::string get_config_output_node() override {return db.get_config_output_node();}
     std::string get_config_pb_path() override {return db.get_config_pb_path();}
     std::string get_config_colors_path() override {return db.get_config_colors_path();}
+    std::vector<std::array<int, 3>> get_colors() override {return db.get_colors();}
     bool set_config_input_size(const cv::Size& size) override {return db.set_config_input_size(size);}
     bool set_config_input_node(const std::string& input_node) override {return db.set_config_input_node(input_node);}
     bool set_config_output_node(const std::string& output_node) override {return db.set_config_output_node(output_node);}

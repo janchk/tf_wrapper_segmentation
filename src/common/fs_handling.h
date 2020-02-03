@@ -88,6 +88,8 @@ public:
 
     std::string get_config_colors_path();
 
+    std::vector<std::array<int, 3>> get_colors();
+
     bool set_config_input_size(const cv::Size& size);
 
     bool set_config_input_node(const std::string& input_node);

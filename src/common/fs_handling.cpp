@@ -117,6 +117,10 @@ std::string DataHandling::get_config_colors_path() {
     return config.colors_path;
 }
 
+std::vector<std::array<int, 3>> DataHandling::get_colors() {
+    return colors;
+}
+
 bool DataHandling::set_config_input_size(const cv::Size& size) {
     config.input_size = size;
     return true;

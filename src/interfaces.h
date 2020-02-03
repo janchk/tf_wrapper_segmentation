@@ -53,6 +53,7 @@ public:
     virtual std::string get_config_output_node() = 0;
     virtual std::string get_config_pb_path() = 0;
     virtual std::string get_config_colors_path() = 0;
+    virtual std::vector<std::array<int, 3>> get_colors() = 0;
     virtual bool set_config_input_size(const cv::Size& size) = 0;
     virtual bool set_config_input_node(const std::string& input_node) = 0;
     virtual bool set_config_output_node(const std::string& output_node) = 0;
