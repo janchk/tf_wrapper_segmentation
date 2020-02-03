@@ -13,7 +13,6 @@
 #include "tensorflow_wrapper_core.h"
 #include "tensorflow_base.h"
 
-///This is supposed to be an abstract class
 class TensorFlowSegmentator : public TensorflowWrapperCore
 {
 public:
