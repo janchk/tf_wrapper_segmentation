@@ -15,6 +15,10 @@ public:
 
     ~SegmentationWrapperBase() = default;
 
+    /// \brief Method for setting number of GPU to make calculations on.
+    /// \param value
+    bool set_gpu(int value);
+
     /// \brief
     /// \param imgs_paths
     /// \return
@@ -51,6 +55,10 @@ public:
     /// \param resized
     /// \return
     std::vector<cv::Mat> get_colored(bool resized); // =true
+
+    /// \brief Method for getting all visible devices that can handle computations
+    /// \return
+    std::string get_devices();
 
 protected:
     bool _is_configured = false;

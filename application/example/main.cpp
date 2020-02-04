@@ -2,7 +2,7 @@
 #include <vector>
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgcodecs.hpp>
-#include "wrapper_base.h"
+#include <tf_wrapper/wrapper_base.h>
 
 
 char *getCmdOption(char **begin, char **end, const std::string &option) {
@@ -41,12 +41,18 @@ int main(int argc, char *argv[]) {
     SegmentationWrapperBase seg_wrapper;
 
 //    seg_wrapper.load_config("config.json");
+    if(!seg_wrapper.set_gpu(1))
+        return 1;
 
     seg_wrapper.configure_wrapper(cv::Size(1024, 1024),
                                     "/home/jakhremchik/CLionProjects/TF_WRAPPER_SEGMENTATION/classes.csv",
                                     "/home/jakhremchik/Downloads/train_fine/frozen_inference_graph.pb",
                                     "ImageTensor:0",
                                     "SemanticPredictions:0");
+
+
+
+
 
     seg_wrapper.set_images({inFileName, inFileName, inFileName});
 

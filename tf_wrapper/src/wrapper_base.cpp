@@ -2,10 +2,10 @@
 // Created by jakhremchik
 //
 
-#include "wrapper_base.h"
-#include "tensorflow_segmentator.h"
-#include "common/fs_handling.h"
-#include "wrapper_interfaces.h"
+#include "tf_wrapper/wrapper_base.h"
+#include "tf_wrapper/tensorflow_segmentator.h"
+#include "tf_wrapper/common/fs_handling.h"
+#include "tf_wrapper/wrapper_interfaces.h"
 
 #include <utility>
 
@@ -92,8 +92,7 @@ bool SegmentationWrapperBase::load_config(std::string config_path) {
     return true;
 }
 
-
-
-
-
+bool SegmentationWrapperBase::set_gpu(int value) {
+    return inference_handler->setGpuNumberPreferred(value);
+}
 

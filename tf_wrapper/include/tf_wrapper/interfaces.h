@@ -13,6 +13,8 @@ class SegmentatorInterface
 {
 public:
 
+    virtual bool setGpuNumberPreferred(int value) = 0;
+
     virtual bool setSegmentationColors(std::vector<std::array<int, 3>> colors) = 0;
 
     virtual bool set_input_output(std::vector<std::string> in_nodes,
@@ -24,6 +26,8 @@ public:
     virtual bool clearData() = 0;
 
     virtual std::string inference(const std::vector<cv::Mat> &imgs) = 0;
+
+    virtual std::string getVisibleDevices() = 0;
 
     virtual std::vector<cv::Mat> getOutputSegmentationIndices() = 0;
 

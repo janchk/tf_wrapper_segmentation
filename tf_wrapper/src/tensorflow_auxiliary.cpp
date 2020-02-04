@@ -2,7 +2,7 @@
 // Created by jakhremchik
 //
 
-#include "tensorflow_auxiliary.h"
+#include "tf_wrapper/tensorflow_auxiliary.h"
 
 
 std::vector<int> tf_aux::get_tensor_shape(tensorflow::Tensor &tensor) {

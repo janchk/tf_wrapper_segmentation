@@ -2,7 +2,7 @@
 // Created by jakhremchik
 //
 
-#include "tensorflow_wrapper_core.h"
+#include "tf_wrapper/tensorflow_wrapper_core.h"
 
 TensorflowWrapperCore::TensorflowWrapperCore(TensorflowWrapperCore &&that) {
     this->_session = that._session;
@@ -72,8 +72,8 @@ void TensorflowWrapperCore::configureGraph(){
     if(_cpu_only && _agres_optim_cpu_enabled)
         graph::SetDefaultDevice("/job:localhost/replica:0/task:0/device:XLA_CPU:0", &_graph_def);
     if(!_cpu_only && _gpu_number >= 0)
-//        graph::SetDefaultDevice("/job:localhost/replica:0/task:0/device:GPU:" + std::to_string(_gpu_number), &_graph_def);
-        graph::SetDefaultDevice("/device:GPU:" + std::to_string(_gpu_number), &_graph_def);
+        graph::SetDefaultDevice("/job:localhost/replica:0/task:0/device:GPU:" + std::to_string(_gpu_number), &_graph_def);
+//        graph::SetDefaultDevice("/device:GPU:" + std::to_string(_gpu_number), &_graph_def);
 }
 
 bool TensorflowWrapperCore::load(const std::string &filename, const std::string &inputNodeName) {

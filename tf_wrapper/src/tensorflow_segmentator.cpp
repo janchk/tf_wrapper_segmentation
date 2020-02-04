@@ -2,7 +2,7 @@
 // Created by jakhremchik
 //
 
-#include "tensorflow_segmentator.h"
+#include "tf_wrapper/tensorflow_segmentator.h"
 
 #include <utility>
 
@@ -90,12 +90,6 @@ std::string TensorFlowSegmentator::inference(const std::vector<cv::Mat> &imgs) {
     using namespace tensorflow;
     PROFILE_BLOCK("inference time");
 
-//    for (const cv::Mat &img : imgs) {
-//        if(!normalize_image(const_cast<cv::Mat &>(img))){
-//            return "Fail to normalize images";
-//        }
-//    }
-//    this->_input_tensor = wrapper_legacy::convertMatToTensor<tensorflow::DT_UINT8>(imgs, 256, 256, 3, false, {0, 0, 0});
     if (!tf_aux::convertMatToTensor_v2(imgs, _input_tensor)){
         return "Fail to convert Mat to Tensor";
     }
@@ -120,7 +114,7 @@ bool TensorFlowSegmentator::setSegmentationColors(std::vector<std::array<int, 3>
     return true;
 }
 
-bool TensorFlowSegmentator::set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) {
+bool TensorFlowSegmentator::setInputOutput(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) {
     _input_node_names = std::move(in_nodes);
     _output_node_names = std::move(out_nodes);
 
@@ -132,6 +126,17 @@ bool TensorFlowSegmentator::clearData() {
         _out_tensors_vector.clear();
     if (!_indices.empty())
         _indices.clear();
+
+    return true;
+}
+
+bool TensorFlowSegmentator::setGpuNumberPreferred(int value) {
+    TensorflowWrapperCore::setGpuNumber(value);
+    const int gpu_num_value = TensorflowWrapperCore::getGpuNumber();
+    if (gpu_num_value != value) {
+        std::cerr << "GPU number was not set" << std::endl;
+        return false;
+    }
 
     return true;
 }

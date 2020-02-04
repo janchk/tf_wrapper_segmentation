@@ -10,19 +10,24 @@
 class TensorFlowSegmentatorInterface : public SegmentatorInterface
 {
 public:
-    bool load(const std::string &filename, const std::string &inputNodeName) override {return segm.load(filename, inputNodeName);}
+    bool setGpuNumberPreferred(int value) override { return segm.setGpuNumberPreferred(value);}
+
+    bool load(const std::string &filename, const std::string &inputNodeName) override { return segm.load(filename, inputNodeName);}
 
     bool setSegmentationColors(std::vector<std::array<int, 3>> colors) override { return segm.setSegmentationColors(colors);}
 
-    bool set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) override {return segm.set_input_output(in_nodes, out_nodes);}
+    bool set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes) override { return segm.setInputOutput(
+                in_nodes, out_nodes);}
 
-    bool clearData() override {return segm.clearData();};
+    bool clearData() override { return segm.clearData();};
 
     std::string inference(const std::vector<cv::Mat> &imgs) override { return segm.inference(imgs);};
 
-    std::vector<cv::Mat> getOutputSegmentationIndices() override {return segm.getOutputSegmentationIndices();}
+    std::string getVisibleDevices() override { return segm.getVisibleDevices();} //Does not really work yet
 
-    std::vector<cv::Mat> getOutputSegmentationColored() override {return segm.getOutputSegmentationColored();}
+    std::vector<cv::Mat> getOutputSegmentationIndices() override { return segm.getOutputSegmentationIndices();}
+
+    std::vector<cv::Mat> getOutputSegmentationColored() override { return segm.getOutputSegmentationColored();}
 
 private:
 

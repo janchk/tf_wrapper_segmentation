@@ -22,7 +22,7 @@ public:
     };
     ~TensorFlowSegmentator() override = default;
 
-    virtual bool set_input_output(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes);
+    virtual bool setInputOutput(std::vector<std::string> in_nodes, std::vector<std::string> out_nodes);
 
     std::string inference(const std::vector<cv::Mat> &imgs) override ;
 
@@ -33,6 +33,9 @@ public:
     virtual bool setSegmentationColors(std::vector<std::array<int, 3>> colors);
 
     virtual bool clearData();
+
+    virtual bool setGpuNumberPreferred(int value);
+
 
 //    bool normalize_image(cv::Mat &img);
 
