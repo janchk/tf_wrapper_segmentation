@@ -13,10 +13,6 @@ class SegmentatorInterface
 {
 public:
 
-    SegmentatorInterface() = default;
-
-    virtual ~SegmentatorInterface() = default;
-
     virtual bool setSegmentationColors(std::vector<std::array<int, 3>> colors) = 0;
 
     virtual bool set_input_output(std::vector<std::string> in_nodes,
@@ -37,9 +33,6 @@ public:
 class DBInterface
 {
 public:
-    DBInterface() = default;
-
-    virtual ~DBInterface() = default;
 
     virtual bool set_config_path(std::string path) = 0;
 
