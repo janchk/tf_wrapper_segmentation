@@ -5,15 +5,10 @@ set (SRC_FILES
 
 add_executable(${MODULE_NAME} ${SRC_FILES})
 
-
-
-#file(MAKE_DIRECTORY ${TEST_DATA_PATH_QUERIES})
-
-
-target_link_libraries(${MODULE_NAME} gtest gtest_main TF_WRAPPER_SEGMENTATION)
+target_link_libraries(${MODULE_NAME} gtest gtest_main ${TensorFlow_LIBRARIES} tf_wrapper)
 
 target_include_directories(${MODULE_NAME} PUBLIC
-                            ${TF_WRAPPER_SEGMENTATION_SOURCE_DIR})
+                            ${TF_WRAPPER_SEGMENTATION_SOURCE_DIR} ${TensorFlow_INCLUDE_DIRS})
 
 add_test(
         NAME
