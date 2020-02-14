@@ -136,7 +136,7 @@ protected:
 
     int _gpu_number = -1;
     double _gpu_memory_fraction = 0.;
-    bool _allow_growth = false;
+    bool _allow_growth = true;
 
 };
 
