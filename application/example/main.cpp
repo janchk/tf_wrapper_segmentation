@@ -40,15 +40,15 @@ int main(int argc, char *argv[]) {
     std::vector<cv::Mat> output_indices;
     SegmentationWrapperBase seg_wrapper;
 
-//    seg_wrapper.load_config("config.json");
+    seg_wrapper.load_config("config.json");
     if(!seg_wrapper.set_gpu(1))
         return 1;
 
-    seg_wrapper.configure_wrapper(cv::Size(1024, 1024),
-                                    "/home/jakhremchik/CLionProjects/TF_WRAPPER_SEGMENTATION/classes.csv",
-                                    "/home/jakhremchik/Downloads/train_fine/frozen_inference_graph.pb",
-                                    "ImageTensor:0",
-                                    "SemanticPredictions:0");
+//    seg_wrapper.configure_wrapper(cv::Size(1024, 1024),
+//                                    "/home/jakhremchik/CLionProjects/TF_WRAPPER_SEGMENTATION/classes.csv",
+//                                    "/home/jakhremchik/Downloads/train_fine/frozen_inference_graph.pb",
+//                                    "ImageTensor:0",
+//                                    "SemanticPredictions:0");
 
 
 
@@ -68,7 +68,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     for (unsigned long i=0; i < output_indices.size(); ++i) {
-        cv::imwrite(cv::format("out_%i.png", i), output_indices[i]);
+        std::string fname = cv::format("out_%i.jpg", i);
+        cv::imwrite(fname, output_indices[i]);
     }
 
 
