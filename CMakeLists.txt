@@ -8,10 +8,7 @@ add_subdirectory(tf_wrapper)
 add_subdirectory(application/example)
 
 include(cmake/googletest.cmake)
-fetch_googletest(
-    ${PROJECT_SOURCE_DIR}/cmake
-    ${PROJECT_BINARY_DIR}/googletest
-    )
+fetch_googletest(${PROJECT_SOURCE_DIR}/cmake ${PROJECT_BINARY_DIR}/googletest)
 
 enable_testing()
 add_subdirectory(tests)

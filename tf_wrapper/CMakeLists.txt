@@ -7,20 +7,31 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 find_package(TensorFlow REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(RapidJSON REQUIRED)
-#find_package(Protobuf REQUIRED)
+# find_package(Protobuf REQUIRED)
 find_package(absl REQUIRED)
 find_package(OpenCV REQUIRED)
-#find_package(Glog REQUIRED)
+# find_package(Glog REQUIRED)
 
-add_library(tf_wrapper src/tensorflow_base.cpp
+add_library(tf_wrapper
   src/tensorflow_wrapper_core.cpp
   src/tensorflow_segmentator.cpp
   src/tensorflow_auxiliary.cpp
   src/wrapper_base.cpp
-  src/common/fs_handling.cpp
-  src/common/common_ops.cpp
-  )
+  src/common/fs_handling.cpp)
 
-target_include_directories(tf_wrapper PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
-target_include_directories(tf_wrapper PRIVATE ${TensorFlow_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS})
-target_link_libraries(tf_wrapper PRIVATE stdc++fs ${OpenCV_LIBS}  Eigen3::Eigen ${TensorFlow_LIBRARIES} ${Protobuf_LIBRARIES} absl::base absl::synchronization absl::strings ${GLOG_LIBRARIES})
+target_include_directories(
+  tf_wrapper PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                    $<INSTALL_INTERFACE:include>)
+target_include_directories(tf_wrapper PRIVATE ${TensorFlow_INCLUDE_DIRS}
+                                              ${Protobuf_INCLUDE_DIRS})
+target_link_libraries(
+  tf_wrapper
+  PRIVATE stdc++fs
+          ${OpenCV_LIBS}
+          Eigen3::Eigen
+          ${TensorFlow_LIBRARIES}
+          ${Protobuf_LIBRARIES}
+          absl::base
+          absl::synchronization
+          absl::strings
+          ${GLOG_LIBRARIES})
